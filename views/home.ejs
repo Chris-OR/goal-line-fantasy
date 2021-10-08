@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+
+<div class="jumbotron centered">
+  <div class="container">
+      <br>
+      <br>
+    <h1 class="display-3">Goal Line Fantasy</h1>
+    <p class="lead">Your trusted source for year long fantasy content</p>
+    <hr class="jumbo-hr">
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="container">
+    <h2>Pre-Season Primers</h2>
+    <br>
+    <div class="row">
+    <% posts.slice(0).reverse().forEach(function(post) { %>
+      <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <a class="title-link" href="/posts/<%=post.title%>">
+        <div class="image-container">
+          <div class="blur">
+            <img class="blur" src="<%= post.image %>" alt="" width="100%">
+          </div>
+          <div class="center-image-text"><strong><%= post.title %></strong></div>
+        </a>
+        </div>
+      </div>
+      <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+        <div class="post-intro">
+            <a class="title-link" href="/posts/<%=post.title%>"><h5><%= post.title %></h5></a>
+            <p><%= post.date %></p>
+        </div>
+        
+        <% if (post.blurb.length >= 300) { %>
+          <p><%= post.blurb.substring(0, 300) %>
+            ...<a class="title-link" href="/posts/<%=post.title%>"> Read More</a>
+          </p>
+        <% } else { %>
+          <p><%= post.blurb %>
+            <a class="title-link" href="/posts/<%=post.title%>">Read More</a>
+          </p>
+        <% } %>
+        </div>
+        <br>
+        <hr class="home-hr">
+      <% }); %>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,118 @@
+/* html, body {
+    height: 100%;
+} */
+
+h2 {
+    text-decoration: underline;
+}
+
+.jumbo-hr {
+    width: 60%;
+    left: 0;
+}
+
+.navbar-logo {
+    height: 5%;
+    width: 5%;
+}
+
+.jumbotron {
+    background-image: url("../jfN1QP.jpg");
+    height: 400px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    background-position-y: 7%;
+}
+
+.navbar-logo {
+    width: 60px;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -2.5rem; /* the bottom margin is the negative value of the footer's height */
+}
+
+footer, .push {
+    height: 2.5rem; /* .push must be the same height as .footer */
+    text-align: center;
+}
+
+
+.title-link {
+    color: black;
+}
+
+.title-link:hover {
+    color: #C8102E;
+}
+
+.post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+.post-content {
+    font-size: calc( var( --global-font-size ) / 16) rem;
+}
+
+.post-intro h5,
+.post-intro p, 
+.post-intro form {
+    display: inline;
+}
+
+.post-intro p {
+    font-size: 0.75rem;
+    margin-left: 1%;
+}
+
+.all-post-icon {
+    margin-left: 1%;
+    text-decoration: none;
+}
+
+.indent-padding {
+    padding-left: 3%;
+}
+
+.home-hr {
+    margin: 2rem 0;
+}
+
+.float-image {
+    float: right;
+    width: 40%;
+    margin: 0 0 1.5% 1.5%;
+}
+
+.blur {
+    opacity: 0.7;
+    filter: brightness(20%);
+    filter: grayscale(20%);
+    -webkit-filter: grayscale(20%);
+    border-radius: 5%;
+}
+
+.blur:hover {
+    box-shadow: 0 0 2px 1px black;
+}
+
+.center-image-text {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10vb;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+    color: black;
+}
