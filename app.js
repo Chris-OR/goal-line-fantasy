@@ -211,22 +211,22 @@ app.get("/login", function(req, res) {
     res.render("login");
 });
   
-app.get("/register", function(req, res) {
-    res.render("register");
-});
+// app.get("/register", function(req, res) {
+//     res.render("register");
+// });
 
-app.post("/register", function(req, res) {
-    User.register({username: req.body.username}, req.body.password, function(err, user) {
-        if (!err) {
-            passport.authenticate("local")(req, res, function () {
-                res.redirect("/all-posts");
-            });
-        } else {
-            console.log(err);
-            res.redirect("/register");
-        }
-    });
-});
+// app.post("/register", function(req, res) {
+//     User.register({username: req.body.username}, req.body.password, function(err, user) {
+//         if (!err) {
+//             passport.authenticate("local")(req, res, function () {
+//                 res.redirect("/all-posts");
+//             });
+//         } else {
+//             console.log(err);
+//             res.redirect("/register");
+//         }
+//     });
+// });
 
 app.post("/login", function(req, res) {
     const user = new User({
