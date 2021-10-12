@@ -133,3 +133,17 @@ footer, .push {
 .dropdown-divider {
     color: rgba(255,255,255,.55);
 }
+
+.dark-mode {
+    background: black;
+    color: white;
+}
+
+.form-control.dark-mode:focus {
+    background-color: black;
+    color: white;
+}
+
+.jumbo-container {
+    color: #212529;
+}
