@@ -9,6 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const e = require('express');
+const { mapLimit } = require('async');
 
 
 const app = express();
@@ -47,7 +48,9 @@ const postSchema = new mongoose.Schema({
     blurb: String,
     content: String,
     date: String,
-    image: String
+    image: String,
+    season: String,
+    tag: String
 });
 
 const Post = mongoose.model("Post", postSchema);
@@ -63,8 +66,7 @@ app.get("/", function(req, res) {
                 res.render("home", {posts: posts});
             }
         }
-    });
-    
+    })
 });
 
 app.get("/posts/:postName", function(req, res) {
@@ -84,6 +86,31 @@ app.get("/posts/:postName", function(req, res) {
         }
     });
     
+});
+
+app.get("/articles/:articleType", function(req, res) {
+    const articleType = req.params.articleType;
+    if (articleType === "pre-season-primers-2021-2022") {
+        Post.find({season: "2021-2022", tag: "pre-season primer"}, function(err, posts) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (posts) {
+                    res.render("articles", {posts: posts, articleType: "Pre-Season Primers for 2021-2022"});
+                }
+            }
+        });
+    } else if (articleType === "in-season-articles-2021-2022") {
+        Post.find({season: "2021-2022", tag: "in-season article"}, function(err, posts) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (posts) {
+                    res.render("articles", {posts: posts, articleType: "In-Season Articles for 2021-2022"});
+                }
+            }
+        });
+    }
 });
 
 app.get("/compose", function(req, res) {
@@ -108,7 +135,9 @@ app.post("/compose", function(req, res) {
             blurb: req.body.postBlurb,
             content: req.body.postContent,
             date: new Date().toLocaleDateString("en-US", options),
-            image: req.body.postImage
+            image: req.body.postImage,
+            season: req.body.season,
+            tag: req.body.tag
           });
       
           post.save();
@@ -160,7 +189,7 @@ app.post("/update", function(req, res) {
 
 app.post("/edit", function(req, res) {
     if (req.body.button === "submit") {
-        Post.updateOne({_id: req.body.postID}, {title: req.body.postTitle, blurb: req.body.postBlurb, content: req.body.postContent, image: req.body.postImage}, function(err) {
+        Post.updateOne({_id: req.body.postID}, {title: req.body.postTitle, blurb: req.body.postBlurb, content: req.body.postContent, image: req.body.postImage, season: req.body.season, tag: req.body.tag}, function(err) {
             if (err) {
                 console.log(err);
             } else {

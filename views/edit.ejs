@@ -5,6 +5,14 @@
 <div class="container">
     <h1>Compose</h1>
 <form class="" action="/edit" method="post">
+  <div class="form-group">
+    <label>Season (ex: 2021-2022)</label>
+    <input value="<%= post.season %>" class="form-control" type="text" name="season">
+  </div>
+  <div class="form-group">
+    <label>Tag (ex: pre-season primer, in-season article)</label>
+    <input value="<%= post.tag %>" class="form-control" type="text" name="tag">
+  </div>
     <div class="form-group">
         <label>ID</label>
         <input value="<%= post._id %>" class="form-control" type="text" name="postID">

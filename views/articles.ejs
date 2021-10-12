@@ -15,10 +15,10 @@
 <br>
 
 <div class="container">
-    <h2>Recent Posts</h2>
+    <h2><%= articleType %></h2>
     <br>
     <div class="row">
-    <% posts.slice(Math.max(posts.length - 5, 0)).reverse().forEach(function(post) { %>
+    <% posts.slice().reverse().forEach(function(post) { %>
       <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
         <a class="title-link" href="/posts/<%=post.title%>">
         <div class="image-container">
