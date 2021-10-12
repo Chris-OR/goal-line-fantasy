@@ -16,6 +16,10 @@ h2 {
     width: 5%;
 }
 
+.navbar {
+    padding: 0;
+}
+
 .jumbotron {
     background-image: url("../jfN1QP.jpg");
     height: 400px;
