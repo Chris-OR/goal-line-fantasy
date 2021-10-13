@@ -31,7 +31,6 @@ var urls = [
     "//ws-na.amazon-adsystem.com/widgets/cm?o=15&p=12&l=ur1&category=books&banner=1CF5A619J93FZ5Z2EQ82&f=ifr&linkID=f82e4599e9f83285c29ed84d361e2fe9&t=awglf-20&tracking_id=awglf-20",
     "//ws-na.amazon-adsystem.com/widgets/cm?o=15&p=12&l=ur1&category=moviesandtv&banner=12CP6TJX1FMF2YX69QR2&f=ifr&linkID=4e75e0ffaa22f56301d15f9d6974a60e&t=awglf-20&tracking_id=awglf-20",
     "//ws-na.amazon-adsystem.com/widgets/cm?o=15&p=12&l=ur1&category=primestudent&banner=09T4RTRGDTMCPCMYJVR2&f=ifr&linkID=b8e5d36f4c8a8caea6d510af850a7720&t=awglf-20&tracking_id=awglf-20",
-    "//ws-na.amazon-adsystem.com/widgets/cm?o=15&p=48&l=ur1&category=sportsoutdoors&banner=06FDBQSTRYXP74Q959G2&f=ifr&linkID=78afe03e4c68a4ea3f926228988a7b96&t=awglf-20&tracking_id=awglf-20",
     "//ws-na.amazon-adsystem.com/widgets/cm?o=15&p=12&l=ur1&category=weddingregistry&banner=13P4H6YKVYV193MANE82&f=ifr&linkID=e70a5bf375ba54e510a048636e89fe2c&t=awglf-20&tracking_id=awglf-20"
 ]
 
