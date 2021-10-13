@@ -147,3 +147,7 @@ footer, .push {
 .jumbo-container {
     color: #212529;
 }
+
+.center {
+    text-align: center;
+}
