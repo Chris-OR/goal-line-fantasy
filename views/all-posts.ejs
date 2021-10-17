@@ -12,7 +12,7 @@
             <a class="title-link" href="/posts/<%=post.title%>"><h5><%= post.title %></h5></a>
             <p><%= post.date %></p>
             <form action="/update" method="post">
-            <button value="<%= post._id %>" class="btn btn-danger" type="submit" name="delete"><i class="fas fa-trash"></i> Delete</button>
+            <button onClick="return confirm('Are you sure that you want to delete this?')" value="<%= post._id %>" class="btn btn-danger" type="submit" name="delete"><i class="fas fa-trash"></i> Delete</button>
             <button value="<%= post._id %>" class="btn btn-danger" type="submit" name="edit"><i class="fas fa-pen"></i> Edit</button>
         </form>
         </div>
