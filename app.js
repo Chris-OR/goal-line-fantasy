@@ -11,8 +11,13 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const e = require('express');
 const { mapLimit } = require('async');
 
+const { SitemapStream, streamToPromise } = require('sitemap');
+const { createGzip } = require('zlib')
+
 
 const app = express();
+
+let sitemap;
 
 app.use(express.static(__dirname + "/public"));
 app.set('view engine', 'ejs');
@@ -54,7 +59,6 @@ const postSchema = new mongoose.Schema({
 });
 
 const Post = mongoose.model("Post", postSchema);
-
 
 
 app.get("/", function(req, res) {
@@ -276,6 +280,37 @@ app.post("/login", function(req, res) {
 app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
+});
+
+app.get("/sitemap.xml", async function(req, res) {
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+    if (sitemap) {
+        res.send(sitemap)
+        return
+    }
+    try {
+        const allPosts = await Post.find().select("title");
+        const posts = allPosts.map( ({ title }) => `/posts/${title}`);
+        const smStream = new SitemapStream({ hostname: 'https://goal-line-fantasy.herokuapp.com/' });
+        const pipeline = smStream.pipe(createGzip())
+        
+        posts.forEach(function(item) {
+            smStream.write({ url: item, changefreq: "daily", piority: 1 })
+        });
+
+        smStream.write({ url: '/about', changefreq: 'monthly', priority: 0.4})
+        smStream.write({ url: '/contact', changefreq: 'monthly', priority: 0.4})
+        smStream.write({ url: '/articles/in-season-articles-2021-2022', changefreq: 'weekly', priority: 0.6})
+        smStream.write({ url: '/articles/pre-season-primers-2021-2022', changefreq: 'weekly', priority: 0.6})
+
+        streamToPromise(pipeline).then(sm => sitemap = sm);
+        smStream.end();
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).end();
+    }
 });
 
 
