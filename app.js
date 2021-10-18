@@ -313,6 +313,9 @@ app.get("/sitemap.xml", async function(req, res) {
     }
 });
 
+app.get("/robots.txt", function(req, res) {
+    res.render("robots.txt");
+});
 
 let port = process.env.PORT;
 if (port == null || port == "") {
