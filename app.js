@@ -296,7 +296,7 @@ app.get("/sitemap.xml", async function(req, res) {
         const pipeline = smStream.pipe(createGzip())
         
         posts.forEach(function(item) {
-            smStream.write({ url: item, changefreq: "daily", piority: 1 })
+            smStream.write({ url: item, changefreq: "daily", piority: 0.9 })
         });
 
         smStream.write({ url: '/about', changefreq: 'monthly', priority: 0.4})
