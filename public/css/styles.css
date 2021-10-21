@@ -152,3 +152,18 @@ footer, .push {
     text-align: center;
 }
 
+tr {
+    border-bottom: 1px solid #ddd;
+}
+
+th, tr, td {
+    padding: 10px;
+}
+
+th:first-child, td:first-child {
+    border-right: 1px solid #ddd
+}
+
+tr:last-child {
+    border-bottom: 0;
+}
