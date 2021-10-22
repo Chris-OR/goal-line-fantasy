@@ -3,6 +3,10 @@ $(document).ready(function() {
       $('body').addClass('dark-mode');
       $(".title-link").addClass('dark-mode');
       $(".form-control").addClass('dark-mode');
+      $(".accordion-body").addClass('dark-mode');
+      $(".accordion-button").addClass('dark-mode');
+      $(".accordion-button").removeClass('light-mode');
+
     }
   
     $('.switch').click(function() {
@@ -10,6 +14,9 @@ $(document).ready(function() {
       el.toggleClass('dark-mode');
       $(".title-link").toggleClass('dark-mode');
       $(".form-control").toggleClass('dark-mode');
+      $(".accordion-body").toggleClass('dark-mode');
+      $(".accordion-button").toggleClass('dark-mode');
+      $(".accordion-button").toggleClass('light-mode');
       localStorage.setItem('switch-state', el.hasClass('dark-mode'));
     });
   });
