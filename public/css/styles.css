@@ -170,6 +170,12 @@ tr {
 
 th, tr, td {
     padding: 10px;
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 th:first-child, td:first-child {
@@ -181,7 +187,7 @@ tr:last-child {
 }
 
 .team-logo {
-    width: 1.75rem;
+    height: 1.5rem;
 }
 
 .accordion-button {
