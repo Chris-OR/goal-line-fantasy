@@ -10,9 +10,10 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const e = require('express');
 const { mapLimit } = require('async');
+const https = require("https");
 
 const { SitemapStream, streamToPromise } = require('sitemap');
-const { createGzip } = require('zlib')
+const { createGzip, deflateSync } = require('zlib')
 
 
 const app = express();
@@ -60,6 +61,139 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model("Post", postSchema);
 
+const NHL_TEAMS = {
+    "New Jersey Devils" : {
+        "abbreviation" : "NJD",
+        "logo" : "/team-logos/N.J_logo.svg", 
+    },
+    "New York Islanders" : {
+        "abbreviation" : "NYI",
+        "logo" : "/team-logos/NYI_logo.svg",
+    },
+    "New York Rangers" : {
+        "abbreviation" : "NYR",
+        "logo" : "/team-logos/NYR_logo.svg",
+    },
+    "Philadelphia Flyers" : {
+        "abbreviation" : "PHI",
+        "logo" : "/team-logos/PHI_logo.svg"
+    },
+    "Pittsburgh Penguins" : {
+        "abbreviation" : "PIT",
+        "logo" : "/team-logos/PIT_logo.svg"
+    },
+    "Boston Bruins" : {
+        "abbreviation" : "BOS",
+        "logo" : "/team-logos/BOS_logo.svg"
+    },
+    "Buffalo Sabres" : {
+        "abbreviation" : "BUF",
+        "logo" : "/team-logos/BUF_logo.svg"
+    },
+    "Montréal Canadiens" : {
+        "abbreviation" : "MTL",
+        "logo" : "/team-logos/MTL_logo.svg"
+    },
+    "Ottawa Senators" : {
+        "abbreviation" : "OTT",
+        "logo" : "/team-logos/OTT_logo.svg"
+    },
+    "Toronto Maple Leafs" : {
+        "abbreviation" : "TOR",
+        "logo" : "/team-logos/TOR_logo.svg"
+    },
+    "Carolina Hurricanes" : {
+        "abbreviation" : "CAR",
+        "logo" : "/team-logos/CAR_logo.svg"
+    },
+    "Florida Panthers" : {
+        "abbreviation" : "FLA",
+        "logo" : "/team-logos/FLA_logo.svg"
+    },
+    "Tampa Bay Lightning" : {
+        "abbreviation" : "T.B",
+        "logo" : "/team-logos/T.B_logo.svg"
+    },
+    "Washington Capitals" : {
+        "abbreviation" : "WSH",
+        "logo" : "/team-logos/WSH_logo.svg"
+    },
+    "Chicago Blackhawks" : {
+        "abbreviation" : "CHI",
+        "logo" : "/team-logos/CHI_logo.svg"
+    },
+    "Detroit Red Wings" : {
+        "abbreviation" : "DET",
+        "logo" : "/team-logos/DET_logo.svg"
+    },
+    "Nashville Predators" : {
+        "abbreviation" : "NSH",
+        "logo" : "/team-logos/NSH_logo.svg"
+    },
+    "St. Louis Blues" : {
+        "abbreviation" : "STL",
+        "logo" : "/team-logos/STL_logo.svg"
+    },
+    "Calgary Flames" : {
+        "abbreviation" : "CGY",
+        "logo" : "/team-logos/CGY_logo.svg"
+    },
+    "Colorado Avalanche" : {
+        "abbreviation" : "COL",
+        "logo" : "/team-logos/COL_logo.svg"
+    },
+    "Edmonton Oilers" : {
+        "abbreviation" : "EDM",
+        "logo" : "/team-logos/EDM_logo.svg"
+    },
+    "Vancouver Canucks" : {
+        "abbreviation" : "VAN",
+        "logo" : "/team-logos/VAN_logo.svg"
+    },
+    "Anaheim Ducks" : {
+        "abbreviation" : "ANA",
+        "logo" : "/team-logos/ANA_logo.svg"
+    },
+    "Dallas Stars" : {
+        "abbreviation" : "DAL",
+        "logo" : "/team-logos/DAL_logo.svg"
+    },
+    "Los Angeles Kings" : {
+        "abbreviation" : "L.A",
+        "logo" : "/team-logos/L.A_logo.svg"
+    },
+    "San Jose Sharks" : {
+        "abbreviation" : "S.J",
+        "logo" : "/team-logos/S.J_logo.svg"
+    },
+    "Columbus Blue Jackets" : {
+        "abbreviation" : "CBJ",
+        "logo" : "/team-logos/CBJ_logo.svg"
+    },
+    "Minnesota Wild" : {
+        "abbreviation" : "MIN",
+        "logo" : "/team-logos/MIN_logo.svg"
+    },
+    "Winnipeg Jets" : {
+        "abbreviation" : "WPG",
+        "logo" : "/team-logos/WPG_logo.svg"
+    
+    },
+    "Arizona Coyotes" : {
+        "abbreviation" : "ARI",
+        "logo" : "/team-logos/ARI_logo.svg"
+    
+    },
+    "Vegas Golden Knights" : {
+        "abbreviation" : "VGK",
+        "logo" : "/team-logos/VGK_logo.svg"
+    
+    },
+    "Seattle Kraken" : {
+        "abbreviation" : "SEA",
+        "logo" : "/team-logos/SEA_logo.svg"
+    },
+};
 
 app.get("/", function(req, res) {
     Post.find(function(err, posts) {
@@ -280,6 +414,56 @@ app.post("/login", function(req, res) {
 app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
+});
+
+function setupSchedule(res, startDate, endDate) {
+    const url = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${startDate}&endDate=${endDate}`
+    https.get(url, function(response) {
+        console.log(response.statusCode);
+        const chunks = [];
+        response.on("data", function(chunk) {
+            chunks.push(chunk);
+        });
+        response.on("end", function() {
+            const data = Buffer.concat(chunks);
+            var games = JSON.parse(data);
+            var activeTeams = [];
+            games.dates.forEach(function(day) {
+                day.games.forEach(function(game) {
+                    if (!activeTeams.includes(game.teams.away.team.name)) {
+                        activeTeams.push(game.teams.away.team.name);
+                    }
+                    if (!activeTeams.includes(game.teams.home.team.name)) {
+                        activeTeams.push(game.teams.home.team.name);
+
+                    }
+                });
+            });
+            res.render("schedule-tool", {startDate: startDate, endDate: endDate, games: games, activeTeams: activeTeams, NHL_TEAMS: NHL_TEAMS});
+        })
+    });
+}
+
+app.get("/schedule-tool", function(req, res) {
+    var startDate = new Date();
+    startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
+    startDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate(); 
+    
+    var endDate = new Date();
+    endDate.setDate(endDate.getDate() + (7 + 7 - endDate.getDay()) % 7);
+    endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+    setupSchedule(res, startDate, endDate);
+});
+
+app.post("/schedule-tool", function(req, res) {
+    const start = req.body.start;
+    const end = req.body.end;
+    if (req.body.button === "load") {
+        setupSchedule(res, start, end);
+    } else {
+        res.redirect("/schedule-tool");
+    }
 });
 
 app.get("/sitemap.xml", async function(req, res) {

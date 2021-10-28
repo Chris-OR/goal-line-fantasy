@@ -6,7 +6,7 @@ $(document).ready(function() {
       $(".accordion-body").addClass('dark-mode');
       $(".accordion-button").addClass('dark-mode');
       $(".accordion-button").removeClass('light-mode');
-
+      $(".input-group-text").addClass('dark-mode');
     }
   
     $('.switch').click(function() {
@@ -17,6 +17,7 @@ $(document).ready(function() {
       $(".accordion-body").toggleClass('dark-mode');
       $(".accordion-button").toggleClass('dark-mode');
       $(".accordion-button").toggleClass('light-mode');
+      $(".input-group-text").toggleClass('dark-mode');
       localStorage.setItem('switch-state', el.hasClass('dark-mode'));
     });
   });
@@ -44,3 +45,4 @@ var urls = [
 var randomSelectedUrl = getRandomUrl(urls);
 
 $("#adSpot").html('<iframe src=" ' + randomSelectedUrl + '" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>');
+

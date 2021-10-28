@@ -1,0 +1,81 @@
+<%- include("partials/header"); -%>
+<br>
+<br>
+
+
+<div class="container">
+
+    <form action="/schedule-tool" method="post">
+        <div class="row">
+            <div class="form-group col-md-5 offset-md-3">
+                <!-- <label for="start">Start Date:</label>
+                <input type="date" name="start" value="<%= startDate %>">
+                <label for="start">&emsp;End Date:</label>
+                <input type="date" name="end" value="<%= endDate %>"> -->
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Start Date:</span>
+                    <input type="date" name="start" value="<%= startDate %>" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">End Date:</span>
+                    <input type="date" name="end" value="<%= endDate %>" class="form-control">
+                </div>
+
+            </div>
+            <div class="form-group col-md-4">
+                <button type="submit" class="btn btn-danger mb-1" name="button" value="load">Load Results</button>
+                <br>
+                <button type="submit" class="btn btn-danger mb-1" name="button" value="reset">Reset to Current Week</button>
+            </div>  
+        </div>
+
+    </form>
+    <table>
+        <tr>
+            <th>Team</th>
+            <% games.dates.forEach(function(day) { %>
+                <th>
+                    <%= new Date(day.date + " ").toLocaleDateString("en-us", {weekday: "short", month: "numeric", day: "numeric"})%> (<%= day.games.length %>) %>
+                </th>
+            <% }); %>
+            <% activeTeams.forEach(function(teamName) { %>
+                <tr>
+                    <td>
+                       <%= NHL_TEAMS[teamName].abbreviation %> <img class="team-logo" src="<%= NHL_TEAMS[teamName].logo %>">
+                    </td>
+                    <% games.dates.forEach(function(day) { %>
+                        <% var isPlaying = false %>
+                        <% day.games.forEach(function(game) { %>
+                            <% if (game.teams.away.team.name === teamName || game.teams.home.team.name === teamName) { %>
+                                <% if (game.teams.away.team.name === teamName) { %>
+                                    <% isPlaying = true %>
+                                    <td class="away">
+                                        <img class="team-logo" src="<%= NHL_TEAMS[game.teams.home.team.name].logo %>">
+                                    </td>
+                                <% } else if (game.teams.home.team.name === teamName) { %>
+                                    <% isPlaying = true %>
+                                    <td class="home">
+                                        <img class="team-logo" src="<%= NHL_TEAMS[game.teams.away.team.name].logo %>">
+                                    </td>
+                                <% } %>
+                            <% }; %>
+                        <% }); %>
+                        <% if (!isPlaying) { %>
+                            <td></td>
+                        <% } %>
+                    <% }); %>
+                </tr>
+            <% }); %> 
+    </table>
+    <br>
+    <div class="text-center">
+        <p><span class="home">&emsp;Home Game&emsp;</span>&emsp;<span class="away">&emsp;Away Game&emsp;</span></p>
+    </div>
+    <br>
+    <br>
+
+</div>
+
+
+<%- include("partials/ad-free-footer"); -%>

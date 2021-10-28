@@ -56,7 +56,8 @@ h2 {
 footer, .push {
     height: 2.5rem; /* .push must be the same height as .footer */
     text-align: center;
-}
+} 
+
 
 
 .title-link {
@@ -151,8 +152,8 @@ footer, .push {
     color: white;
 }
 
-.form-control.dark-mode:focus {
-    background-color: black;
+.form-control.dark-mode {
+    background-color: rgba(255,255,255, 0.15);
     color: white;
 }
 
@@ -202,4 +203,21 @@ tr:last-child {
 
 .right-align {
     float: right;
+}
+
+.away {
+    background-color: rgba(252, 0, 0, 0.2);
+}
+
+.home {
+    background-color: rgba(0, 252, 0, 0.2);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.date-range {
+    max-width : 20rem;
+    margin: auto;
 }
