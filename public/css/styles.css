@@ -221,3 +221,23 @@ tr:last-child {
     max-width : 20rem;
     margin: auto;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    /* border-radius: 10px; */
+    background-color: #212529;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 1px;
+    background-color: transparent;
+}
