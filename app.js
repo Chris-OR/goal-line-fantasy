@@ -447,12 +447,25 @@ function setupSchedule(res, startDate, endDate) {
 app.get("/schedule-tool", function(req, res) {
     var startDate = new Date();
     startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
-    startDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate(); 
+    
+    if (startDate.getDate() < 10) {
+        var startDay = "0" + startDate.getDate();
+    } else {
+        startDay = startDate.getDate();
+    }
+
+    startDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDay; 
     
     var endDate = new Date();
     endDate.setDate(endDate.getDate() + (7 + 7 - endDate.getDay()) % 7);
-    endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+   
+    if (endDate.getDate() < 10) {
+        var endDay = "0" + endDate.getDate();
+    } else {
+        endDay = endDate.getDate();
+    }
 
+    endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDay;
     setupSchedule(res, startDate, endDate);
 });
 

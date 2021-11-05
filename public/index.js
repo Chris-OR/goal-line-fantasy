@@ -67,6 +67,7 @@ function sortTable(n) {
       one from current row and one from the next: */
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
+      
       /* Check if the two rows should switch place,
       based on the direction, asc or desc: */
       if (dir == "asc") {
@@ -100,3 +101,8 @@ function sortTable(n) {
     }
   }
 }
+
+$("th").click(function () {
+  $('th').removeClass('sorted');
+  $(this).toggleClass('sorted');
+});
