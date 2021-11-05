@@ -500,6 +500,7 @@ app.get("/sitemap.xml", async function(req, res) {
         smStream.write({ url: '/contact', changefreq: 'monthly', priority: 0.4})
         smStream.write({ url: '/articles/in-season-articles-2021-2022', changefreq: 'weekly', priority: 0.6})
         smStream.write({ url: '/articles/pre-season-primers-2021-2022', changefreq: 'weekly', priority: 0.6})
+        smStream.write({ url: '/schedule-tool', changefreq: 'weekly', priority: 0.6})
 
         streamToPromise(pipeline).then(sm => sitemap = sm);
         smStream.end();
