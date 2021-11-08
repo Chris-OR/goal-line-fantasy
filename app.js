@@ -418,29 +418,34 @@ app.get("/logout", function(req, res) {
 
 function setupSchedule(res, startDate, endDate) {
     const url = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${startDate}&endDate=${endDate}`
-    https.get(url, function(response) {
-        console.log(response.statusCode);
-        const chunks = [];
-        response.on("data", function(chunk) {
-            chunks.push(chunk);
-        });
-        response.on("end", function() {
-            const data = Buffer.concat(chunks);
-            var games = JSON.parse(data);
-            var activeTeams = [];
-            games.dates.forEach(function(day) {
-                day.games.forEach(function(game) {
-                    if (!activeTeams.includes(game.teams.away.team.name)) {
-                        activeTeams.push(game.teams.away.team.name);
-                    }
-                    if (!activeTeams.includes(game.teams.home.team.name)) {
-                        activeTeams.push(game.teams.home.team.name);
-
-                    }
-                });
+    https.get(url, function(response, err) {
+        if (!err) {
+            console.log(response.statusCode);
+            const chunks = [];
+            response.on("data", function(chunk) {
+                chunks.push(chunk);
             });
-            res.render("schedule-tool", {startDate: startDate, endDate: endDate, games: games, activeTeams: activeTeams, NHL_TEAMS: NHL_TEAMS});
-        })
+            response.on("end", function() {
+                const data = Buffer.concat(chunks);
+                var games = JSON.parse(data);
+                var activeTeams = [];
+                games.dates.forEach(function(day) {
+                    day.games.forEach(function(game) {
+                        if (!activeTeams.includes(game.teams.away.team.name)) {
+                            activeTeams.push(game.teams.away.team.name);
+                        }
+                        if (!activeTeams.includes(game.teams.home.team.name)) {
+                            activeTeams.push(game.teams.home.team.name);
+    
+                        }
+                    });
+                });
+                res.render("schedule-tool", {startDate: startDate, endDate: endDate, games: games, activeTeams: activeTeams, NHL_TEAMS: NHL_TEAMS});
+            })
+        } else {
+            res.render("schedule-failed");
+        }
+       
     });
 }
 
