@@ -443,7 +443,7 @@ function setupSchedule(res, startDate, endDate) {
                 res.render("schedule-tool", {startDate: startDate, endDate: endDate, games: games, activeTeams: activeTeams, NHL_TEAMS: NHL_TEAMS});
             })
         } else {
-            res.render("schedule-failed");
+            res.render("schedule-fail");
         }
        
     });
