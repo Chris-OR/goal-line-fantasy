@@ -418,8 +418,8 @@ app.get("/logout", function(req, res) {
 
 function setupSchedule(res, startDate, endDate) {
     const url = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${startDate}&endDate=${endDate}`
-    https.get(url, function(response, err) {
-        if (!err) {
+    https.get(url, function(response) {
+        if (response.statusCode === 200) {
             console.log(response.statusCode);
             const chunks = [];
             response.on("data", function(chunk) {
